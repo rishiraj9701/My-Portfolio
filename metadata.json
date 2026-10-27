@@ -1,6 +1,6 @@
 {
-  "name": "Rishi Raj Shukla Portfolio",
-  "description": "Premium developer portfolio of Rishi Raj Shukla, Frontend Developer specializing in React.js, Next.js, and Tailwind CSS.",
+  "name": "Rishi Raj Shukla — Full Stack Developer Portfolio",
+  "description": "Modern developer portfolio of Rishi Raj Shukla, Full Stack Developer building clean, responsive, and performance-minded web applications with React, TypeScript, Next.js, and Node.js.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

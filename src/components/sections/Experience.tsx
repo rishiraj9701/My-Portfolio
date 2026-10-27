@@ -1,97 +1,91 @@
 import React from 'react';
-import { EXPERIENCE_TIMELINE } from '../../data/portfolioData';
-import { Briefcase, Calendar, GraduationCap, CheckCircle } from 'lucide-react';
-import { motion } from 'motion/react';
+import { EXPERIENCE_ITEMS } from '../../data/portfolioData';
+import { Calendar } from 'lucide-react';
+import { Badge } from '../ui/badge';
+import { Card, CardContent } from '../ui/card';
+import { RevealSection } from '../common/RevealSection';
 
 export const Experience: React.FC = () => {
   return (
-    <section id="experience" className="py-24 relative px-4 sm:px-6 lg:px-8 bg-black/5 dark:bg-black/20">
-      
-      {/* Visual top/bottom lines representing continuous development */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-12 bg-gradient-to-b from-gray-200 dark:from-gray-800 to-transparent pointer-events-none" />
-
-      <div className="max-w-4xl mx-auto z-10 relative">
+    <section id="experience" className="py-16 md:py-20 px-4 sm:px-6">
+      <RevealSection className="max-w-4xl mx-auto">
         
-        {/* Header section title */}
-        <div className="text-center md:text-left space-y-4 mb-16">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-orange-500/10 border border-brand-orange-500/20 text-xs font-mono text-brand-orange-500 font-semibold uppercase tracking-wider">
-            <Briefcase className="w-3.5 h-3.5" />
-            <span>Employment Timeline</span>
-          </div>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl text-gray-950 dark:text-white tracking-tight">
-            Work Experience & Background
+        {/* Section Header */}
+        <div className="space-y-1.5 mb-10">
+          <Badge variant="outline" className="text-xs font-mono uppercase tracking-wider text-orange-600 dark:text-orange-400 border-orange-500/20 bg-orange-500/5">
+            CAREER &amp; EXPERIENCE
+          </Badge>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-white">
+            Experience &amp; Learning Timeline
           </h2>
-          <div className="w-12 h-1 bg-brand-orange-500 mx-auto md:mx-0 rounded-full" />
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-2xl">
+            Practical development work, web application engineering, and professional technical training.
+          </p>
         </div>
 
-        {/* Timeline representation (Gradient connectors and indicators) */}
-        <div className="relative border-l-2 border-dashed border-gray-200 dark:border-gray-800 pl-6 sm:pl-8 ml-3 sm:ml-4 space-y-12">
-          
-          {EXPERIENCE_TIMELINE.map((item, idx) => {
-            const isLatest = idx === 0;
+        {/* Timeline List */}
+        <div className="relative border-l border-zinc-200 dark:border-[#241c1e] ml-3 sm:ml-4 pl-6 sm:pl-8 space-y-8">
+          {EXPERIENCE_ITEMS.map((item, idx) => {
+            const isCurrent = idx === 0;
             return (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: '-150px' }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="relative text-left"
-              >
-                {/* Marker point */}
-                <span className={`absolute -left-[35px] sm:-left-[43px] top-1.5 p-1.5 sm:p-2 rounded-xl flex items-center justify-center transition-all ${
-                  isLatest 
-                    ? 'bg-brand-orange-500 text-white shadow-lg shadow-brand-orange-500/20 ring-4 ring-brand-orange-500/10' 
-                    : 'bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-800'
+              <div key={item.id} className="relative">
+                {/* Timeline Dot Marker */}
+                <span className={`absolute -left-[32px] sm:-left-[40px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full border ${
+                  isCurrent 
+                    ? 'border-orange-600 bg-orange-600 text-white dark:border-orange-500 dark:bg-orange-500 ring-4 ring-orange-500/20' 
+                    : 'border-zinc-300 bg-white dark:border-zinc-700 dark:bg-zinc-900'
                 }`}>
-                  {idx === 0 ? <Briefcase className="w-3.5 h-3.5" /> : <GraduationCap className="w-3.5 h-3.5" />}
+                  <span className={`h-1.5 w-1.5 rounded-full ${isCurrent ? 'bg-white' : 'bg-zinc-400 dark:bg-zinc-500'}`} />
                 </span>
 
-                <div className="glass-panel glass-card-hover p-6 sm:p-8 rounded-2xl relative overflow-hidden">
-                  
-                  {/* Latest flag bubble */}
-                  {isLatest && (
-                    <div className="absolute top-0 right-0 p-1 bg-brand-orange-500 text-[9px] font-mono font-bold text-white uppercase px-3 rounded-bl-xl tracking-wider shadow-sm">
-                      Current Focus
+                {/* Content Card */}
+                <Card className="rounded-2xl border border-zinc-200/80 dark:border-[#241c1e] bg-white dark:bg-[#130f10] shadow-sm">
+                  <CardContent className="p-5 sm:p-6 space-y-3">
+                    
+                    {/* Header Row */}
+                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1.5">
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+                            {item.role}
+                          </h3>
+                          {isCurrent && (
+                            <Badge variant="outline" className="text-[10px] py-0 px-2 font-mono border-orange-500/30 text-orange-600 dark:text-orange-400 bg-orange-500/10">
+                              Active
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="text-xs font-medium text-orange-600 dark:text-orange-400 mt-0.5">
+                          {item.organization}
+                        </p>
+                      </div>
+
+                      <div className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-500 dark:text-zinc-400 shrink-0">
+                        <Calendar className="w-3.5 h-3.5 text-orange-500/70" />
+                        <span>{item.period}</span>
+                      </div>
                     </div>
-                  )}
 
-                  {/* Header metadata row */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
-                    <div>
-                      <h3 className="font-display font-bold text-base sm:text-lg text-gray-900 dark:text-white leading-snug">
-                        {item.role}
-                      </h3>
-                      <p className="font-display font-medium text-xs sm:text-sm text-brand-orange-500 dark:text-brand-orange-400 mt-0.5">
-                        {item.company}
-                      </p>
-                    </div>
+                    {/* Bullet Points */}
+                    <ul className="space-y-1.5 pt-1 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+                      {item.description.map((bullet, bIdx) => (
+                        <li key={bIdx} className="flex items-start gap-2 leading-relaxed">
+                          <span className="text-orange-600 dark:text-orange-400 shrink-0 mt-0.5 font-bold">&bull;</span>
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
 
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-100/50 dark:border-gray-800/80 bg-gray-55/60 dark:bg-black/10 self-start text-[11px] font-mono text-gray-500 dark:text-gray-400 font-medium">
-                      <Calendar className="w-3 h-3 text-brand-orange-500" />
-                      <span>{item.period}</span>
-                    </div>
-                  </div>
-
-                  {/* Descriptions lists */}
-                  <ul className="space-y-2.5 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                    {item.description.map((bullet, bIdx) => (
-                      <li key={bIdx} className="flex items-start gap-2.5 leading-relaxed">
-                        <CheckCircle className="w-4 h-4 text-brand-orange-500/60 mt-0.5 flex-shrink-0" />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                </div>
-              </motion.div>
+                  </CardContent>
+                </Card>
+              </div>
             );
           })}
-
         </div>
 
-      </div>
+      </RevealSection>
     </section>
   );
 };
+
 export default Experience;

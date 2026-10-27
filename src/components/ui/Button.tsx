@@ -1,48 +1,60 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { cn } from '../../lib/utils';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'glass' | 'ghost' | 'glow';
-  size?: 'sm' | 'md' | 'lg';
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'default' | 'primary' | 'secondary' | 'outline' | 'ghost' | 'accent' | 'glass' | 'glow';
+  size?: 'default' | 'sm' | 'md' | 'lg' | 'icon';
   fullWidth?: boolean;
   children: React.ReactNode;
 }
 
-export const Button: React.FC<ButtonProps> = ({
-  variant = 'primary',
-  size = 'md',
-  fullWidth = false,
-  className = '',
-  children,
-  ...props
-}) => {
-  const baseStyles = 'inline-flex items-center justify-center font-display font-medium rounded-xl transition-all duration-200 outline-none focus:ring-2 focus:ring-brand-orange-500/50 cursor-pointer select-none';
-  
-  const sizeStyles = {
-    sm: 'text-xs px-3.5 py-2 rounded-lg gap-1.5',
-    md: 'text-sm px-5 py-2.5 rounded-xl gap-2',
-    lg: 'text-base px-6 py-3 rounded-xl gap-2.5',
-  };
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ 
+    variant = 'default', 
+    size = 'default', 
+    fullWidth = false, 
+    className = '', 
+    children, 
+    ...props 
+  }, ref) => {
+    const baseStyles = 'inline-flex items-center justify-center font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/50 disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer';
 
-  const variantStyles = {
-    primary: 'bg-brand-orange-500 text-white hover:bg-brand-orange-600 shadow-md shadow-brand-orange-500/10 border border-brand-orange-500/20 active:scale-95',
-    secondary: 'bg-gray-100 hover:bg-gray-200 text-gray-900 border border-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700/80 dark:text-gray-100 dark:border-gray-700 active:scale-95',
-    glass: 'glass-panel text-gray-800 hover:text-brand-orange-600 dark:text-gray-200 dark:hover:text-brand-orange-400 hover:border-brand-orange-500/30 shadow-sm active:scale-95',
-    ghost: 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white bg-transparent active:scale-95',
-    glow: 'relative text-white overflow-hidden bg-gradient-to-r from-brand-orange-500 to-amber-500 hover:from-brand-orange-600 hover:to-amber-600 shadow-lg shadow-brand-orange-500/20 border border-brand-orange-500/30 after:absolute after:inset-0 after:bg-white/10 after:opacity-0 hover:after:opacity-100 after:transition-opacity',
-  };
+    const sizeStyles: Record<string, string> = {
+      default: 'h-10 px-4 py-2 text-sm rounded-lg gap-2',
+      sm: 'h-8 px-3 text-xs rounded-md gap-1.5',
+      md: 'h-10 px-4 py-2 text-sm rounded-lg gap-2',
+      lg: 'h-11 px-6 text-sm font-medium rounded-lg gap-2.5',
+      icon: 'h-9 w-9 rounded-lg',
+    };
 
-  const widthStyle = fullWidth ? 'w-full' : '';
+    const variantStyles: Record<string, string> = {
+      default: 'bg-zinc-900 text-zinc-50 hover:bg-orange-600 hover:text-white dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-orange-600 dark:hover:text-white border border-transparent shadow-xs',
+      primary: 'bg-zinc-900 text-zinc-50 hover:bg-orange-600 hover:text-white dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-orange-600 dark:hover:text-white border border-transparent shadow-xs',
+      accent: 'bg-orange-600 text-white hover:bg-orange-500 border border-orange-600 dark:border-orange-500 shadow-xs',
+      glow: 'bg-orange-600 text-white hover:bg-orange-500 border border-orange-600 dark:border-orange-500 shadow-xs',
+      secondary: 'bg-zinc-100 text-zinc-900 hover:text-orange-600 hover:border-orange-500/30 dark:bg-zinc-800/80 dark:text-zinc-100 dark:hover:text-orange-400 border border-transparent',
+      outline: 'border border-zinc-200 dark:border-zinc-800 bg-transparent hover:border-orange-500/40 hover:text-orange-600 dark:hover:text-orange-400',
+      glass: 'border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-900/60 hover:border-orange-500/40 hover:text-orange-600 dark:hover:text-orange-400 text-zinc-900 dark:text-zinc-100 shadow-xs',
+      ghost: 'hover:text-orange-600 dark:hover:text-orange-400 text-zinc-700 dark:text-zinc-300',
+    };
 
-  return (
-    <motion.button
-      whileHover={{ y: -1.5, scale: 1.01 }}
-      whileTap={{ scale: 0.98 }}
-      className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${widthStyle} ${className}`}
-      {...props as any}
-    >
-      {children}
-    </motion.button>
-  );
-};
+    return (
+      <button
+        ref={ref}
+        className={cn(
+          baseStyles,
+          sizeStyles[size] || sizeStyles.default,
+          variantStyles[variant] || variantStyles.default,
+          fullWidth ? 'w-full' : '',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  }
+);
+
+Button.displayName = 'Button';
 export default Button;

@@ -18,7 +18,7 @@ async function startServer() {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    const emailTo = "rishi.raj.shukla7883@gmail.com";
+    const emailTo = process.env.EMAIL_TO || "work.rishirajshukla@gmail.com";
     const smtpUser = process.env.EMAIL_USER;
     const smtpPass = process.env.EMAIL_PASS;
 
